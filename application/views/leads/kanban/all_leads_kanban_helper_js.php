@@ -1,0 +1,27 @@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var scrollLeft = 0;
+        $("#kanban-filters").appFilters({
+            source: '<?php echo_uri("leads/all_leads_kanban_data") ?>',
+            targetSelector: '#load-kanban',
+            reloadSelector: "#reload-kanban-button",
+            search: {name: "search"},
+            filterDropdown: [
+                {name: "source", class: "w200", options: <?php $this->load->view("leads/lead_sources"); ?>},
+                {name: "owner_id", class: "w200", options: <?php echo json_encode($owners_dropdown); ?>}
+            ],
+            beforeRelaodCallback: function () {
+                scrollLeft = $("#kanban-wrapper").scrollLeft();
+            },
+            afterRelaodCallback: function () {
+                setTimeout(function () {
+                    $("#kanban-wrapper").animate({scrollLeft: scrollLeft}, 'slow');
+                }, 500);
+            }
+        });
+
+    });
+
+</script>
